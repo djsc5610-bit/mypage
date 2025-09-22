@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>김래인 학생 동형 모의고사 결과 분석 인포그래픽 (iOS 오프라인, 가독성 개선)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans KR", sans-serif;
+      background: #f0f4f8;
+      color: #001C30;
+    }
+    .container { max-width: 1120px; padding: 16px; margin: 0 auto; }
+    header { text-align: center; margin: 24px 0 40px; }
+    h1 { margin: 0; font-weight: 900; line-height: 1.2; }
+    h2 { margin: 0 0 16px; font-weight: 700; line-height: 1.3; }
+    h3, h4 { margin: 0 0 8px; font-weight: 700; }
+    p { margin: 0 0 10px; }
+    .muted { color: #176B87; }
+    .card { background: #fff; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.08); padding: 24px; }
+    .kpi-card { background: linear-gradient(135deg, #001C30, #176B87); color: #fff; }
+    .kpi-card h3 { color: #e5eef3; }
+    .kpi-card p.small { color: #d6e5ef; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; }
+    @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .center { text-align: center; }
+    .legend { display:flex; gap:16px; justify-content:center; align-items:center; margin-top: 8px; color:#176B87; font-weight:600; }
+    .legend .swatch { width:12px; height:12px; border-radius:2px; display:inline-block; margin-right:6px; }
+    .accent { background:#64CCC5; }
+    .light { background:#E0E0E0; }
+    .safe { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+    footer { text-align:center; padding:24px 8px; color:#4b5563; border-top: 1px solid #e5e7eb; margin-top: 32px; }
+    .subtle { color:#6b7280; font-size: 14px; }
+    .note { background:#f3f4f6; border-radius: 10px; padding: 12px; color:#374151; font-size: 14px; }
+    .pill { display:inline-block; padding:2px 6px; border-radius:999px; font-weight:700; font-size:12px; }
+    .pill-red { background:#fee2e2; color:#b91c1c; }
+    .pill-amber { background:#fef3c7; color:#b45309; }
+    .pill-purple { background:#f3e8ff; color:#6b21a8; }
+    .pill-sky { background:#e0f2fe; color:#0369a1; }
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline-item { position: relative; padding: 0 0 28px 0; }
+    .timeline::before { content: ""; position: absolute; left: 12px; top: 8px; bottom: 8px; width: 2px; background: #64CCC5; }
+    .dot { position: absolute; left: 8px; top: 4px; width: 12px; height: 12px; background: #DAFFFB; border: 2px solid #176B87; border-radius: 50%; }
+    .mt-8 { margin-top: 24px; } .mt-16 { margin-top: 32px; }
+    /* Donut wrapper */
+    .donut-wrap { width: 100%; max-width: 520px; height: 340px; margin: 0 auto; display:flex; align-items:center; justify-content:center; }
+    /* Extra numeric label outside SVG for absolute clarity */
+    .big-pct { text-align:center; font-weight:900; font-size: clamp(28px, 6vw, 40px); color:#001C30; line-height:1; margin-top: 6px; }
+    .big-sub { text-align:center; font-weight:700; font-size: clamp(12px, 2.8vw, 14px); color:#176B87; margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <div class="safe">
+    <div class="container">
+      <header>
+        <h1 style="font-size: clamp(24px, 4vw, 36px);">김래인 학생 모의고사 결과 분석</h1>
+        <p class="muted" style="font-size: clamp(14px, 2.5vw, 18px); margin-top:8px;">안정적인 만점을 위한 최종 실전 전략</p>
+      </header>
+
+      <main>
+        <section class="mt-16">
+          <h2 class="center" style="font-size: clamp(20px, 3.5vw, 28px);">종합 성취도</h2>
+          <div class="grid mt-8">
+            <div class="card kpi-card center">
+              <h3 style="font-size: 16px;">총 점수</h3>
+              <p style="font-size: 48px; font-weight: 900; margin: 8px 0 0;">
+                <span style="font-size: 56px; color:#DAFFFB;">20</span> / 22
+              </p>
+              <p style="font-size: 18px; font-weight: 800; margin: 6px 0 0;" class="small">정답률: 90.9%</p>
+              <p class="small" style="margin-top: 10px;">총평: 최상위권의 실력을 갖추었으나, 실전 운영 능력 강화가 만점의 열쇠입니다.</p>
+            </div>
+
+            <div class="card">
+              <h3 class="center muted" style="font-size: 16px;">정답 / 오답 분포</h3>
+              <div class="donut-wrap">
+                <!-- JS 없는 SVG 도넛: 90.9% 고정 렌더링 -->
+                <svg viewBox="0 0 120 120" width="100%" height="100%" role="img" aria-labelledby="title desc">
+                  <title id="title">정답/오답 도넛 차트</title>
+                  <desc id="desc">정답 20개, 오답 2개, 정답률 90.9%</desc>
+                  <!-- 배경 원 -->
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#E0E0E0" stroke-width="16"></circle>
+                  <!-- 정답 아크: dasharray를 직접 퍼센트로 지정 -->
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#64CCC5" stroke-width="16"
+                          stroke-linecap="round" transform="rotate(-90 60 60)"
+                          pathLength="100" stroke-dasharray="90.9 9.1"></circle>
+                  <!-- 중앙 라벨 (더 큼/진하게/하얀 외곽선으로 시인성 강화) -->
+                  <g aria-hidden="true">
+                    <text x="60" y="54" text-anchor="middle" font-size="14" fill="#176B87" font-weight="800">정답률</text>
+                    <text x="60" y="80" text-anchor="middle" font-size="28" font-weight="900" fill="#001C30"
+                          style="paint-order: stroke; stroke: #ffffff; stroke-width: 2px;">90.9%</text>
+                  </g>
+                </svg>
+              </div>
+              <div class="legend">
+                <span><i class="swatch accent"></i>정답 20</span>
+                <span><i class="swatch light"></i>오답 2</span>
+              </div>
+              <div class="big-pct">90.9%</div>
+              <div class="big-sub">정답률이 보이지 않으면 이 숫자를 확인하세요.</div>
+              <p class="subtle center" style="margin-top:12px;">단 2개의 오답과 서술형 문제에서 발견된 시간 관리 문제를 집중 분석해야 합니다.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-16">
+          <h2 class="center" style="font-size: clamp(20px, 3.5vw, 28px);">핵심 분석: 오답 및 특이사항 정밀 진단</h2>
+          <div class="card" style="border-top: 8px solid #001C30;">
+            <h3 class="center" style="color:#001C30;">만점을 놓친 세 가지 결정적 요인</h3>
+            <div style="display:grid; grid-template-columns: 1fr; gap:16px; margin-top: 16px;">
+              <div style="background:#f9fafb; border-radius:10px; padding:12px; text-align:center;">
+                <p style="color:#176B87; font-weight:800; font-size: 13px;">개념 적용 실수 (10번)</p>
+                <p class="subtle">직선의 방정식 &gt; 평행 조건</p>
+                <p class="pill pill-red" style="margin-top:6px;">보통 (4)</p>
+                <p style="color:#b91c1c; font-size:12px; margin-top:6px;">평행 조건을 활용하지 못해 발생한 실수</p>
+              </div>
+              <div style="background:#f9fafb; border-radius:10px; padding:12px; text-align:center;">
+                <p style="color:#176B87; font-weight:800; font-size: 13px;">최고난도 접근 실패 (22번)</p>
+                <p class="subtle">도형의 이동 &gt; 해석과 활용</p>
+                <p class="pill pill-purple" style="margin-top:6px;">매우 어려움 (7)</p>
+                <p style="color:#6b21a8; font-size:12px; margin-top:6px;">복합적인 이동 해석에 어려움</p>
+              </div>
+              <div style="background:#fef2f2; border-radius:10px; padding:12px; text-align:center;">
+                <p style="color:#b91c1c; font-weight:800; font-size: 13px;">시간 관리 실패 (20, 21번)</p>
+                <p class="subtle">서술형 풀이 누락</p>
+                <p class="pill pill-red" style="margin-top:6px;">전략 부재</p>
+                <p style="color:#b91c1c; font-size:12px; margin-top:6px;">알고도 점수를 잃는 가장 아쉬운 실수</p>
+              </div>
+            </div>
+            <div class="note mt-8 center">
+              <p style="font-weight:700; color:#374151;">분석 결과</p>
+              <p style="margin-top:6px;">개념 이해도와 문제 해결 능력은 최상위권 수준입니다. 하지만 <span class="pill pill-red">시험 시간 분배 전략의 부재</span>가 서술형 풀이 누락으로 이어졌고, 이는 실제 점수 하락의 가장 큰 원인입니다. 또한, <span class="pill pill-amber">기본 유형(10번)에서의 실수</span>는 안정적인 만점을 위해 반드시 보완해야 할 부분입니다.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-16">
+          <h2 class="center" style="font-size: clamp(20px, 3.5vw, 28px);">만점을 위한 2-Phase 학습 전략</h2>
+          <div class="timeline mt-8">
+            <div class="timeline-item">
+              <span class="dot"></span>
+              <p class="muted" style="font-weight:800; font-size:12px;">[Phase 1] 중간고사 대비 최종 점검</p>
+              <h4>실전 시간 관리 전략 수립</h4>
+              <p class="subtle" style="font-size: 14px;">
+                남은 기간, <span class="pill pill-sky">실제 시험처럼 시간 맞춰 푸는 연습</span>이 필수적입니다.
+                문제를 받으면, 1) <span class="pill" style="background:#dcfce7; color:#166534;">빠르게 풀 수 있는 문제부터 해결</span>하여 점수를 확보하고,
+                2) <span class="pill" style="background:#dbeafe; color:#1e40af;">서술형 답안을 작성할 시간을 반드시 남긴 뒤</span>,
+                3) <span class="pill" style="background:#ede9fe; color:#5b21b6;">남은 시간에 최고난도 문제에 도전</span>하는 순서를 몸에 익혀야 합니다.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <span class="dot"></span>
+              <p class="muted" style="font-weight:800; font-size:12px;">[Phase 2] 중간고사 이후 장기 계획</p>
+              <h4>사고력 확장 및 약점 보완</h4>
+              <p class="subtle" style="font-size: 14px;">
+                시험 이후에는 22번과 같은 <span class="pill pill-purple">최고난도 복합 추론 문항</span>에 대한 접근법을 집중적으로 훈련해야 합니다.
+                또한, 10번과 같은 실수가 반복되지 않도록 <span class="pill pill-red">자주 틀리는 유형에 대한 오답 노트</span>를 만들어
+                개념을 완벽하게 다지는 과정이 필요합니다.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p style="font-weight:800; color:#001C30;">수학이 쉬워지는 순간, 한호빈T</p>
+        <p class="subtle">이 분석은 김래인 학생의 노력을 응원합니다. 실전 운영 능력만 더한다면 최고의 결과를 얻을 수 있습니다!</p>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
