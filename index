@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정윤찬 학생 동형 모의고사 결과 분석 인포그래픽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .kpi-card {
+             background: linear-gradient(135deg, #1D2671, #5D3891);
+             color: white;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 1.25rem;
+            bottom: -1.25rem;
+            width: 2px;
+            background-color: #9A7BFF;
+        }
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: calc(1rem - 0.4rem);
+            top: 1.25rem;
+            height: 0.9rem;
+            width: 0.9rem;
+            background-color: #F4EEE0;
+            border-radius: 50%;
+            border: 2px solid #5D3891;
+        }
+    </style>
+</head>
+<body class="bg-[#f0f4f8] text-[#1D2671]">
+    
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+        
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-black text-[#1D2671]">정윤찬 학생 모의고사 결과 분석</h1>
+            <p class="text-md md:text-lg text-[#5D3891] mt-2">안정적인 만점을 위한 정교함과 완성도 강화 전략</p>
+        </header>
+
+        <main>
+            <section id="overall-analysis" class="mb-12">
+                <h2 class="text-2xl font-bold text-center mb-6 text-[#1D2671]">종합 성취도</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center kpi-card">
+                        <h3 class="text-lg font-bold mb-2 text-gray-200">총 점수</h3>
+                        <p class="text-6xl font-black text-white"><span class="text-7xl text-[#F4EEE0]">19</span> / 22</p>
+                        <p class="text-lg font-bold mt-2 text-gray-200">정답률: 86.4%</p>
+                        <p class="mt-4 text-gray-300 text-sm">총평: 최상위권의 실력을 갖추었으나, 만점을 위해서는 풀이 과정의 완성도를 높이는 것이 핵심입니다.</p>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-lg font-bold text-center mb-4 text-[#5D3891]">정답 / 오답 분포</h3>
+                        <div class="chart-container">
+                            <canvas id="overallScoreChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-gray-600 mt-4">3개의 오답을 정밀 분석하여 마지막 약점을 보완해야 합니다.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="weakness-diagnosis" class="mb-12">
+                <h2 class="text-2xl font-bold text-center mb-6 text-[#1D2671]">핵심 분석: 만점을 놓친 세 가지 약점</h2>
+                <div class="bg-white rounded-xl shadow-lg p-6 border-t-8 border-[#1D2671]">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <p class="font-bold text-sm text-[#5D3891]">기본 개념 혼동 (6번)</p>
+                            <p class="text-xs text-gray-500">집합의 뜻 > 기호 해석</p>
+                            <p class="mt-2 text-red-600 font-bold">쉬움 (2)</p>
+                            <p class="text-xs text-red-500 mt-1">기본 문제에서의 실수</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <p class="font-bold text-sm text-[#5D3891]">계산 실수 (14번)</p>
+                            <p class="text-xs text-gray-500">원의 방정식 > 세 점</p>
+                            <p class="mt-2 text-amber-600 font-bold">어려움 (5)</p>
+                            <p class="text-xs text-amber-500 mt-1">풀이법은 알지만 결과 오류</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                             <p class="font-bold text-sm text-[#5D3891]">마무리 미흡 (22번)</p>
+                            <p class="text-xs text-gray-500">도형의 이동 > 해석</p>
+                            <p class="mt-2 text-purple-600 font-bold">매우 어려움 (7)</p>
+                             <p class="text-xs text-purple-500 mt-1">해석 후 답 도출 실패</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 p-4 bg-red-50 rounded-lg text-sm">
+                        <p class="font-bold text-red-600 text-center">🚨 가장 시급한 과제: 서술형 풀이 과정</p>
+                        <p class="text-center text-gray-700 mt-2">현재 풀이 과정이 전반적으로 정돈되지 않아, 아는 문제도 <span class="font-bold text-red-600 bg-red-100 px-1 rounded-sm">과정 점수 감점</span>을 당할 가능성이 매우 높습니다. 답을 맞히는 것만큼, 논리적으로 설명하는 능력도 중요합니다.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="learning-strategy">
+                <h2 class="text-2xl font-bold text-center mb-8 text-[#1D2671]">완성도 향상을 위한 2-Phase 학습 전략</h2>
+                <div class="relative p-4">
+                    <div class="timeline-item relative pl-8 pb-10">
+                        <div class="timeline-dot"></div>
+                        <p class="text-xs text-[#5D3891] font-bold">[Phase 1] 중간고사 대비 최종 점검</p>
+                        <h4 class="font-bold text-lg text-[#1D2671]">논리적인 서술형 답안 작성 훈련</h4>
+                        <p class="text-sm text-gray-700 mt-1">남은 기간, 맞혔던 서술형 문제를 포함하여 모든 서술형 문제의 <span class="font-bold text-sky-600 bg-sky-100 px-1 rounded-sm">풀이 과정을 처음부터 끝까지 손으로 써보는 연습</span>이 필수적입니다. '왜냐하면', '따라서'와 같은 논리적 연결어를 사용하여 채점자가 명확히 이해할 수 있는 답안을 만드는 훈련에 집중하세요.</p>
+                    </div>
+                    <div class="timeline-item relative pl-8">
+                         <div class="timeline-dot"></div>
+                        <p class="text-xs text-[#5D3891] font-bold">[Phase 2] 중간고사 이후 장기 계획</p>
+                        <h4 class="font-bold text-lg text-[#1D2671]">정교함과 검토 능력 강화</h4>
+                        <p class="text-sm text-gray-700 mt-1">시험 이후에는 14번, 22번과 같은 <span class="font-bold text-purple-600 bg-purple-100 px-1 rounded-sm">고난도 복합 문항</span>에 대한 훈련이 필요합니다. 문제를 다 푼 후에, <span class="font-bold text-red-600 bg-red-100 px-1 rounded-sm">자신의 풀이 과정을 다시 검토하며 계산 실수나 논리적 비약이 없는지 확인</span>하는 습관을 통해 풀이의 정교함을 완성해야 합니다.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="text-center mt-12 py-6 border-t border-gray-300">
+            <p class="text-lg font-bold text-[#1D2671] mb-2">수학이 쉬워지는 순간, 한호빈T</p>
+            <p class="text-gray-600 text-sm">이 분석은 정윤찬 학생의 노력을 응원합니다. 풀이의 완성도를 높여 최고의 결과를 만드세요!</p>
+        </footer>
+    </div>
+
+    <script>
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+        
+        const colors = {
+            primary: '#1D2671',
+            secondary: '#5D3891',
+            accent: '#9A7BFF',
+            highlight: '#F4EEE0',
+            lightGray: '#E0E0E0',
+        };
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: colors.secondary,
+                        font: {
+                            family: "'Noto Sans KR', sans-serif",
+                            size: 12
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    bodyFont: {
+                        family: "'Noto Sans KR', sans-serif"
+                    },
+                    titleFont: {
+                         font: {
+                            family: "'Noto Sans KR', sans-serif"
+                        }
+                    }
+                }
+            }
+        };
+
+        const overallScoreCtx = document.getElementById('overallScoreChart').getContext('2d');
+        new Chart(overallScoreCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['정답', '오답'],
+                datasets: [{
+                    label: '문항 수',
+                    data: [19, 3],
+                    backgroundColor: [colors.accent, colors.lightGray],
+                    borderColor: ['#FFFFFF', '#FFFFFF'],
+                    borderWidth: 4,
+                    hoverOffset: 4
+                }]
+            },
+            options: { ...commonChartOptions }
+        });
+
+    </script>
+
+</body>
+</html>
